@@ -73,7 +73,7 @@ Stage 3 goes first because its CI analysis takes longest. The merge controls are
 
 ## Stage 1: out-of-the-box review, then `gitar fix`
 
-Read the diff while Gitar reviews it, which takes 2 to 5 minutes. Find Gitar's **Important** inline finding and reply `gitar fix` in its thread (ticking **Apply fix** in the comment does the same thing). When Gitar's commit lands, open it, look at which files it changed, and check that CI is green. Don't merge this pull request.
+Read the diff while Gitar reviews it, which can take several minutes. Find Gitar's inline finding and reply `gitar fix` in its thread. When Gitar's commit lands, open it, look at which files it changed, and check that CI is green. Don't merge this pull request.
 
 ## Stage 2: context ingestion
 
@@ -100,7 +100,7 @@ Either way, check that Gitar's commit changed application code, not a test. With
 
 | Problem | What to do |
 |---|---|
-| No review after 5 minutes | Comment `gitar review` |
+| Review is taking longer than expected | Check Gitar's dashboard. If a review is still running, wait for it to finish. If no review is running, comment `gitar review` |
 | Pull request opened against `sonar-samples` | Close it, then use New pull request and select your fork as both base repository and head repository |
 | No `test` check on a pull request | Enable Actions in your fork, then close and reopen the pull request |
 | Stage 3 shows no CI analysis | Comment `gitar review` |
