@@ -1,6 +1,6 @@
 # Gitar workshop: Boxoffice
 
-Boxoffice is the ticketing API behind a small venue's website. Customers buy tickets, each ticket carries a QR code, and gate staff scan it at the door. In this workshop you open three pull requests in your own fork and watch [Gitar](https://gitar.ai), Sonar's AI code verification agent, review all three, fix two, and merge one. Findings and fixes can differ a little between runs.
+Boxoffice is the ticketing API behind a small venue's website. Customers buy tickets, each ticket carries a QR code, and gate staff scan it at the door. In this workshop you open three pull requests in your own fork and watch [Gitar](https://gitar.ai), Sonar's AI code verification agent, review all three, apply fixes, and automate a merge. Findings and fixes can differ a little between runs.
 
 | Stage | What you'll see | Branch |
 |---|---|---|
