@@ -12,25 +12,17 @@ Boxoffice is the ticketing API behind a small venue's website. Customers buy tic
 
 You need a GitHub account where you can install a GitHub App. Sign in at [app.gitar.ai](https://app.gitar.ai) first and start the GitHub install from there. Installing from GitHub Marketplace while signed out leaves nothing connected. Your 14-day Pro trial starts when you connect GitHub.
 
-## Setup (about 4 minutes)
+## Set up your fork
 
-Do these steps in order. CI and Gitar both need to be on before you open a pull request.
+Complete setup before opening the three pull requests. If your pull requests are open, finish setup now and continue with the stages; you do not need to recreate them.
 
 1. Fork this repo. **Uncheck "Copy the `main` branch only"**, then confirm your fork shows 4 branches.
    [SCREENSHOT: UI — fork dialog with "Copy the main branch only" unchecked]
 2. In your fork, open the **Actions** tab and click **I understand my workflows, go ahead and enable them**.
-3. In Gitar, open **Settings > Configuration**, grant Gitar access to your fork, and confirm the fork is listed.
-4. Open the three pull requests with these links, replacing `<your-username>` (and the repo name, if you renamed your fork). Stage 3 goes first because its pipeline takes longest.
-   - Stage 3: `https://github.com/<your-username>/aie-ny-workshop-gitar/compare/main...stage-3?expand=1`
-   - Stage 1: `https://github.com/<your-username>/aie-ny-workshop-gitar/compare/main...stage-1?expand=1`
-   - Stage 2: `https://github.com/<your-username>/aie-ny-workshop-gitar/compare/main...stage-2?expand=1`
 
-   The title and description fill in automatically, so just click **Create pull request**. If you use **New pull request** instead, change **base repository** to your fork first, or the pull request goes to `sonar-samples`.
-5. In Gitar's settings, leave **Auto-merge PRs after auto-approve** off. Stage 3 turns on auto-merge for one pull request with a command.
+## Configure GitHub merge controls
 
-## Merge controls (Stage 3 only)
-
-> Only Stage 3's automatic merge needs these settings. Stages 1 and 2 work without them. If you skip this section, you still see Gitar's diagnosis and fix commit in Stage 3, and the presenter shows the merge. A good time to do it is while Gitar reviews your Stage 1 pull request.
+Complete these settings before opening pull requests if you want Stage 3 to merge automatically. Stages 1 and 2 work without them. If you skip this section, Stage 3 ends with a fix commit and green CI, and the presenter shows the merge.
 
 1. In your fork, open **Settings > General > Pull Requests** and check **Allow auto-merge**.
    [SCREENSHOT: UI — Settings > General > Pull Requests with Allow auto-merge checked]
@@ -52,7 +44,32 @@ Do these steps in order. CI and Gitar both need to be on before you open a pull 
    Then click **Create**. If `test` doesn't show up in the search, run **Actions > Test > Run workflow** on `main` and search again. Instead of filling in the form, you can use **New ruleset > Import a ruleset** and upload `setup/ruleset-require-tests.json` from this repo.
    [SCREENSHOT: UI — ruleset target branches set to Include default branch]
    [SCREENSHOT: UI — status check picker with test (GitHub Actions) selected]
-3. In Gitar's behavior settings, turn on **Auto-approve PRs based on code review**. Leave **Auto-merge PRs after auto-approve** off. If a merge method is selectable, choose **Squash**. Gitar arms auto-merge only after it approves, so you need auto-approve even though the ruleset doesn't require an approval.
+
+## Connect and configure Gitar
+
+1. In Gitar, open **Settings > Configuration**, grant Gitar access to your fork, and confirm the fork is listed.
+2. In the behavior settings for your fork, turn on **Auto-approve PRs based on code review** and leave **Auto-merge PRs after auto-approve** off. If a merge method is selectable, choose **Squash**.
+
+The settings have separate jobs, so use these values for the workshop.
+
+| Where | Setting | Value |
+|---|---|---|
+| GitHub, your fork | Allow auto-merge | On for the full Stage 3 cycle |
+| Gitar, your fork's behavior settings | Auto-approve PRs based on code review | On |
+| Gitar, your fork's behavior settings | Auto-merge PRs after auto-approve | Off |
+
+GitHub's setting permits automatic merging, while Gitar's auto-approve setting lets it submit an approval after its review. Keep Gitar's automatic merging default off so Stages 1 and 2 stay open. Later, `gitar auto-merge:on` enables merging for the Stage 3 pull request only, and GitHub waits for the required `test` check. The command still needs Gitar's auto-approve setting on.
+
+## Open the three pull requests
+
+Create each pull request through GitHub's form in your fork.
+
+1. Open **Pull requests > New pull request**.
+2. Select your fork for both **base repository** and **head repository**. Set **base** to `main` and **compare** to `stage-3`.
+3. Click **Create pull request**. The branch's commit fills in the title and description; keep both and submit the pull request.
+4. Repeat with **compare** set to `stage-1`, then `stage-2`, keeping your fork as both repositories and `main` as the base.
+
+Stage 3 goes first because its CI analysis takes longest. The merge controls are now in place, but the command to enable merging for that pull request comes later, after you read its diagnosis. Leave the Stage 1 and Stage 2 pull requests open throughout the workshop.
 
 ## Stage 1: out-of-the-box review, then `gitar fix`
 
@@ -77,17 +94,17 @@ gitar auto-merge:on
 
 If you skipped merge controls, comment only `gitar auto-apply:on`. Done means a Gitar commit and green CI.
 
-Either way, check that Gitar's commit changed application code, not a test. Gitar approves the code, and GitHub won't merge until `test` is green, so it never merges on red.
+Either way, check that Gitar's commit changed application code, not a test. With merge controls configured, Gitar approves the code and GitHub waits for the required `test` check to turn green before merging.
 
 ## Troubleshooting
 
 | Problem | What to do |
 |---|---|
 | No review after 5 minutes | Comment `gitar review` |
-| Pull request opened against `sonar-samples` | Close it and use the link from setup step 4 |
-| No `test` check on a pull request | Enable Actions (setup step 2), then close and reopen the pull request |
+| Pull request opened against `sonar-samples` | Close it, then use New pull request and select your fork as both base repository and head repository |
+| No `test` check on a pull request | Enable Actions in your fork, then close and reopen the pull request |
 | Stage 3 shows no CI analysis | Comment `gitar review` |
-| Gitar's dashboard says auto-merge wasn't armed | Check the three merge controls |
+| Gitar's dashboard says auto-merge wasn't armed | Check GitHub's Allow auto-merge and required `test` check, Gitar's auto-approve setting, and the Stage 3 `gitar auto-merge:on` command |
 
 ## Take it further
 
